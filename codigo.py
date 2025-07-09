@@ -13,7 +13,7 @@ BASE_URL = "http://monipe-central.rnp.br"
 ARCHIVE_URL = f"{BASE_URL}/esmond/perfsonar/archive/"
 
 # Configurações para as tentativas de requisição (retry)
-MAX_RETRIES = 50  # Número máximo de vezes que o script tentará uma requisição antes de desistir.
+MAX_RETRIES = 20  # Número máximo de vezes que o script tentará uma requisição antes de desistir.
 RETRY_DELAY_SECONDS = 60  # Tempo de espera (em segundos) entre as tentativas.
 
 # Configuração do período de tempo para a coleta de dados (em segundos)
