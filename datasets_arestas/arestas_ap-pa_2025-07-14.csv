@@ -1,0 +1,16 @@
+Timestamp,Datetime,Hop_Number,Source_IP,Source_Hostname,Dest_IP,Dest_Hostname
+1747301934,2025-05-15 06:38:54,1,200.129.167.23,gateway,170.79.214.18,cap1-popap.bkb.rnp.br
+1747301934,2025-05-15 06:38:54,2,170.79.214.18,cap1-popap.bkb.rnp.br,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br
+1747301934,2025-05-15 06:38:54,3,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br,170.79.214.41,bpa1-cpa1.bkb.rnp.br
+1747301934,2025-05-15 06:38:54,4,170.79.214.41,bpa1-cpa1.bkb.rnp.br,No-IP,No-Hostname
+1747301934,2025-05-15 06:38:54,5,No-IP,No-Hostname,200.129.149.11,monipe-pa-atraso.rnp.br
+1747303054,2025-05-15 06:57:34,1,200.129.167.23,gateway,170.79.214.18,cap1-popap.bkb.rnp.br
+1747303054,2025-05-15 06:57:34,2,170.79.214.18,cap1-popap.bkb.rnp.br,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br
+1747303054,2025-05-15 06:57:34,3,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br,170.79.214.41,bpa1-cpa1.bkb.rnp.br
+1747303054,2025-05-15 06:57:34,4,170.79.214.41,bpa1-cpa1.bkb.rnp.br,No-IP,No-Hostname
+1747303054,2025-05-15 06:57:34,5,No-IP,No-Hostname,200.129.149.11,monipe-pa-atraso.rnp.br
+1747303391,2025-05-15 07:03:11,1,200.129.167.23,gateway,170.79.214.18,cap1-popap.bkb.rnp.br
+1747303391,2025-05-15 07:03:11,2,170.79.214.18,cap1-popap.bkb.rnp.br,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br
+1747303391,2025-05-15 07:03:11,3,170.79.213.83,cpa1-cap1-tlb.bkb.rnp.br,170.79.214.41,bpa1-cpa1.bkb.rnp.br
+1747303391,2025-05-15 07:03:11,4,170.79.214.41,bpa1-cpa1.bkb.rnp.br,No-IP,No-Hostname
+1747303391,2025-05-15 07:03:11,5,No-IP,No-Hostname,200.129.149.11,monipe-pa-atraso.rnp.br

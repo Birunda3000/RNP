@@ -9,7 +9,7 @@ from urllib3.exceptions import InsecureRequestWarning
 # --- CONFIGURAÇÕES GERAIS ---
 BASE_URL = "http://monipe-central.rnp.br"
 ARCHIVE_URL = f"{BASE_URL}/esmond/perfsonar/archive/"
-TIME_RANGE_SECONDS = "86400"  # Coletando dados das últimas 24 horas
+TIME_RANGE_SECONDS = "12628000"
 MAX_RETRIES = 5
 RETRY_DELAY_SECONDS = 15
 CLIENT_RATE_LIMIT_DELAY = 5

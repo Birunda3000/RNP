@@ -1,0 +1,10 @@
+Timestamp,Datetime,Hop_Number,Source_IP,Source_Hostname,Dest_IP,Dest_Hostname
+1745620107,2025-04-25 19:28:27,1,200.19.119.67,gateway,200.130.101.214,No-Hostname
+1745620107,2025-04-25 19:28:27,2,200.130.101.214,No-Hostname,170.79.214.114,cdf2-bdf2.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,3,170.79.214.114,cdf2-bdf2.bkb.rnp.br,170.79.214.126,cdf1-cdf2.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,4,170.79.214.126,cdf1-cdf2.bkb.rnp.br,170.79.213.163,cmg2-cdf1-mobiwire.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,5,170.79.213.163,cmg2-cdf1-mobiwire.bkb.rnp.br,170.79.213.134,cmg1-cmg2.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,6,170.79.213.134,cmg1-cmg2.bkb.rnp.br,170.79.213.199,crj1-cmg1-telebras.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,7,170.79.213.199,crj1-cmg1-telebras.bkb.rnp.br,200.143.253.22,brj1-crj1.bkb.rnp.br
+1745620107,2025-04-25 19:28:27,8,200.143.253.22,brj1-crj1.bkb.rnp.br,200.143.240.35,No-Hostname
+1745620107,2025-04-25 19:28:27,9,200.143.240.35,No-Hostname,200.159.254.238,monipe-rj-atraso.rnp.br

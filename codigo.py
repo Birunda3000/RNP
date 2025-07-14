@@ -19,7 +19,7 @@ RETRY_DELAY_SECONDS = 60  # Tempo de espera (em segundos) entre as tentativas.
 # Configuração do período de tempo para a coleta de dados (em segundos)
 # O valor original era "63072000" (2 anos), que é muito grande e pode causar erros.
 # Recomendo usar períodos menores, como 1 mês (aprox. 2.628.000 segundos)
-TIME_RANGE_SECONDS = "2628000"  # Exemplo: 1 mês
+TIME_RANGE_SECONDS = "12628000"  # Exemplo: 1 mês
 
 # Configuração de pausa para não sobrecarregar o servidor
 # Pausa (em segundos) entre as requisições para cada par de hosts (origem/destino).
