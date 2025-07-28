@@ -1,0 +1,47 @@
+# ===================================================================
+# =        Arquivos e Pastas a serem ignorados pelo Git             =
+# ===================================================================
+
+# Arquivos de Cache e Bytecode do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Pastas de Ambiente Virtual
+# (essas pastas são locais para cada máquina)
+venv
+env
+.venv
+.env
+
+# Pastas e arquivos de configuração de IDEs e Editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos gerados pelo Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# --- DADOS E ARQUIVOS GERADOS PELO PROJETO ---
+# (NUNCA envie dados brutos ou processados para o Git)
+
+# Pastas de dados existentes no projeto original
+datasets_arestas/
+"datasets traceroute"/
+"datasets alterados"/
+teste/
+
+# Nova estrutura de pasta de dados
+data/
+
+# Arquivos CSV e TXT gerados pelos scripts
+# (ignora todos os arquivos .csv e .txt na raiz do projeto)
+*.csv
+*.txt
+
+# Exceções: Se você quiser que o Git rastreie um arquivo .txt específico
+# (como um README.txt), você pode adicionar uma exceção.
+# !meu_arquivo_importante.txt
