@@ -2,6 +2,10 @@ import os
 import json
 import csv
 from collections import defaultdict
+"""
+Script para identificar conflitos de IPs e hostnames em dados de traceroute.
+Ele gera um mapa base com nós (IPs e hostnames) e arestas (conexões entre eles).
+"""
 
 # --- CONFIGURAÇÕES ---
 PASTA_INPUT_RAW = os.path.join('data', 'raw', 'traceroute')

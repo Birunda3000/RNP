@@ -4,6 +4,13 @@ import csv
 import itertools
 from collections import defaultdict
 
+"""
+Script para identificar conflitos de IPs e hostnames em dados de traceroute.
+Ele vasculha todos os arquivos JSON na pasta 'data/raw/traceroute/',
+procura por IPs associados a múltiplos hostnames e salva os pares conflitantes
+em um arquivo CSV.
+"""
+
 # --- CONFIGURAÇÕES ---
 PASTA_INPUT_RAW = os.path.join('data', 'raw', 'traceroute')
 PASTA_OUTPUT = 'output'

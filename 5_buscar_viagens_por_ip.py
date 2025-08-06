@@ -1,7 +1,10 @@
 import pandas as pd
 import os
 import re
-
+"""
+Script para buscar viagens de traceroute por IP.
+Ele lê o log de viagens gerado anteriormente e procura por todas as
+jornadas que incluem o IP alvo ou qualquer um de seus nomes associados."""
 # --- CONFIGURAÇÕES ---
 PASTA_OUTPUT = 'output'
 ARQUIVO_INPUT_NODES = os.path.join(PASTA_OUTPUT, 'nodes.csv')
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     # --- PONTO DE INTERESSE ---
     # Altere o valor desta variável para buscar o IP que você deseja investigar.
     #ip_alvo = "200.237.194.2"
-    ip_alvo = "170.79.213.123"
+    ip_alvo = "170.79.213.123" 
 
     if not ip_alvo:
         print("🚨 Por favor, defina um valor para a variável 'ip_alvo' no script.")

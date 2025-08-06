@@ -2,7 +2,14 @@ import os
 import json
 import re
 import pandas as pd
-
+"""
+Script para deduzir o estado brasileiro associado a cada nó (IP) no mapa de rede
+gerado anteriormente. Utiliza três regras para tentar determinar o estado:
+1. Se o nó é o primeiro hop de uma rota, assume o estado da origem.
+2. Se o nó é o último hop de uma rota, assume o estado do destino.
+3. Se o hostname do nó contém exatamente uma sigla de estado (ex: 'sp', 'rj'), assume esse estado.
+O resultado final classifica cada nó como 'Definido', 'Conflito' ou 'Indefinido'.
+"""
 # --- CONFIGURAÇÕES ---
 PASTA_OUTPUT = 'output'
 PASTA_INPUT_RAW = os.path.join('data', 'raw', 'traceroute')

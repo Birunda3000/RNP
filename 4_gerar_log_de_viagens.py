@@ -1,7 +1,11 @@
 import os
 import json
 import csv
-
+"""
+Script para gerar um log de viagens de traceroute.
+Cada linha do log representa uma jornada completa de traceroute,
+incluindo origem, destino e a sequência de saltos.
+"""
 # --- CONFIGURAÇÕES ---
 PASTA_INPUT_RAW = os.path.join('data', 'raw', 'traceroute')
 PASTA_OUTPUT = 'output'
