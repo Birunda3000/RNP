@@ -85,7 +85,7 @@ def _percorrer_e_escrever_otimizado(arquivo_saida, diretorio_atual, prefixo, lim
 
 if __name__ == "__main__":
     # --- CONFIGURAÇÕES ---
-    LIMITE_DE_ARQUIVOS_POR_PASTA = 12
+    LIMITE_DE_ARQUIVOS_POR_PASTA = 10
     NOME_DO_ARQUIVO_DE_SAIDA = "arvore_de_diretorios.txt"
     
     # Lista de pastas e arquivos a ignorar no mapeamento
