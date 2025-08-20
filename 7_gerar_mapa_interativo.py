@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.graph_objects as go
 import os
-import random ### MUDANÇA: Importamos a biblioteca random
+import random
 
 # --- CONFIGURAÇÕES ---
 PASTA_PROCESSED = os.path.join('data', 'processed')
@@ -50,7 +50,6 @@ def gerar_mapa_interativo_v2():
     # Cria um mapa de ID para as informações do nó
     mapa_nos = df_nodes.set_index('id').to_dict('index')
 
-    # Cria as linhas das arestas no mapa (lógica inalterada)
     edge_traces = []
     for _, edge in df_edges.iterrows():
         source_id, target_id = edge['source_id'], edge['target_id']
@@ -66,7 +65,7 @@ def gerar_mapa_interativo_v2():
                 hoverinfo='none'
             ))
 
-    # Cria os pontos dos nós no mapa (lógica inalterada)
+
     node_trace = go.Scattergeo(
         lon=df_nodes['longitude'],
         lat=df_nodes['latitude'],
@@ -82,7 +81,7 @@ def gerar_mapa_interativo_v2():
         )
     )
 
-    # Configura o layout do mapa (lógica inalterada)
+
     layout = go.Layout(
         title_text='Visualização Geográfica da Rede RNP (com Dispersão de Nós)',
         showlegend=False,
