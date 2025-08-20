@@ -1,108 +1,85 @@
-# Coletor e Processador de Dados de Rede (RNP)
+# Projeto de Mapeamento Geográfico da Rede RNP
 
-Este projeto consiste em um conjunto de scripts Python para automatizar a coleta e o processamento de dados de métricas de rede a partir de uma API. O sistema é dividido em duas etapas principais:
+## 1. Objetivo
 
-1.  **Coleta**: Busca dados brutos da API para pares de hosts específicos e os salva em formato JSON.
-2.  **Processamento**: Converte os dados brutos JSON em arquivos CSV estruturados para análise.
+Este projeto tem como objetivo analisar dados brutos de `traceroute` da Rede Nacional de Ensino e Pesquisa (RNP) para classificar geograficamente cada nó da rede, determinando o estado brasileiro ao qual pertence.
 
-## Estrutura do Projeto
+O processo é realizado através de um pipeline de scripts em Python que progressivamente extraem, analisam, refinam e validam os dados, culminando em uma visualização interativa e georreferenciada da topologia da rede sobre o mapa do Brasil.
 
-A estrutura de diretórios do projeto está organizada da seguinte forma:
+## 2. Estrutura do Projeto
 
 ```
-RNP/
-├── config
-│   ├── __init__.py
-│   └── config.py
-├── data
-│   ├── processed
-│   └── raw
-├── data_collector
-│   ├── __init__.py
-│   ├── api_client.py
-│   ├── collector.py
-│   └── report_generator.py
-├── data_processor
-│   ├── __init__.py
-│   └── processing.py
-├── main_collector.py
-├── main_processor.py
-├── .gitignore
-└── requirements.txt
+/
+|-- data/
+|   |-- raw/
+|   |   |-- traceroute/
+|   |       |-- monipe-ac-atraso_to_monipe-am-atraso...json
+|   |       `-- ... (outros arquivos .json com dados brutos)
+|   `-- processed/
+|       |-- nodes.csv
+|       |-- edges.csv
+|       |-- ... (arquivos intermediários)
+|-- 1_...py a 10_...py          <-- Scripts do pipeline de análise
+|-- mapa_rede_interativo_v2.html <-- Visualização final e principal!
+`-- README.md
 ```
 
-## Funcionalidades
+## 3. Metodologia
 
-  * **Coleta Automatizada**: Itera sobre uma lista configurável de hosts e métricas para buscar dados.
-  * **Cliente de API Robusto**: Inclui um mecanismo de tentativas (retries) com delay para lidar com falhas de conexão.
-  * **Processamento de Dados**: Transforma os dados brutos JSON em formato CSV limpo e pronto para análise.
-  * **Geração de Relatórios**: Ao final da coleta, gera um relatório (`.txt`) com o resumo da execução, incluindo sucessos, falhas e a taxa de sucesso.
-  * **Modularidade**: O código é organizado em módulos para coleta (`data_collector`) e processamento (`data_processor`), facilitando a manutenção e expansão.
-  * **Configuração Centralizada**: Todas as configurações importantes (hosts, URLs de API, métricas) são gerenciadas no arquivo `config/config.py`.
+A classificação de cada nó é realizada através de um pipeline de análise com múltiplas fases, onde cada etapa refina o resultado da anterior:
 
-## Pré-requisitos
+1. **Extração da Rede Base:** Os arquivos `.json` são processados para extrair uma lista única de **nós** (IPs) e **arestas** (conexões), formando a estrutura base da rede.
+2. **Dedução Heurística:** Regras baseadas em padrões de nomenclatura (`hostname`) e no contexto da medição (origem/destino extraído do nome do arquivo) são aplicadas para uma dedução inicial da localização de cada nó.
+3. **Consolidação por Pontuação:** Para resolver conflitos onde múltiplas regras apontam para estados diferentes, um sistema de pontuação configurável é utilizado. Ele pesa as evidências com base na confiabilidade de cada regra, elegendo o estado mais provável e marcando empates como "Ambíguos".
+4. **Resolução por Topologia:** Nós ainda "Desconhecidos" ou "Ambíguos" são analisados com base em sua vizinhança na rede. Através de uma votação majoritária entre seus vizinhos diretos, o script tenta inferir a localização mais provável.
+5. **Inferência Final e "Chute Educado":** Para os casos mais resistentes, uma análise de vizinhança estendida (2º grau) é realizada para forçar uma decisão ("chute"), garantindo a máxima completude dos dados. Empates nesta fase são resolvidos por ordem alfabética.
+6. **Visualização:** O dataset final, é utilizado para gerar um mapa interativo, onde cada nó é posicionado geograficamente ao redor da capital do estado, permitindo a exploração visual da topologia da rede.
 
-  * Python 3.x
+## 4. Como Executar o Projeto
 
-## Instalação
+#### Pré-requisitos
 
-1.  Clone este repositório para a sua máquina local:
+Certifique-se de ter Python 3 instalado e instale os requirements.txt
 
-    ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
-    cd RNP
-    ```
+#### Fluxo de Execução
 
-2.  Instale as dependências necessárias usando o `pip`:
+1. **Preparação:** Coloque todos os seus arquivos de dados `traceroute` (`.json`) na pasta `data/raw/traceroute/`.
+2. **Execução dos Scripts:** Execute os scripts na ordem numérica para processar os dados em fases.
+   **Bash**
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+   ```
+   # Fase 1: Cria a base de nós e arestas
+   python 2_criar_nodes_edges_baseado_nos_jsons.py
 
-## Configuração
+   # Fase 2: Aplica as regras de nomenclatura e contexto
+   python 3_analisar_nos_por_regras.py
 
-Antes de executar os scripts, é essencial configurar os parâmetros no arquivo `config/config.py`. As principais variáveis a serem ajustadas são:
+   # Fase 3: Resolve conflitos com o sistema de pontuação
+   python 4_consolidar_analise.py
 
-  * `HOST_LIST`: A lista de hosts de origem e destino para a coleta de dados.
-  * `METRIC_CONFIG`: Um dicionário que define as métricas a serem coletadas, seus tipos, labels na API e onde salvá-las.
-  * `ARCHIVE_URL` e `BASE_URL`: As URLs base da API de onde os dados serão extraídos.
-  * `MAX_RETRIES` e `RETRY_DELAY_SECONDS`: Parâmetros para o mecanismo de tentativas do cliente de API.
+   # Fase 4: Tenta resolver ambiguidades com vizinhos diretos
+   python 5_resolver_ambiguidades_vizinhos.py
 
-## Como Usar
+   # (Opcional) Fase 5a: Desempate específico para nomes de link
+   python 6_desempate_final.py
 
-A execução do projeto é dividida em duas etapas manuais.
+   # Fase 5b: Força uma decisão para todos os nós restantes
+   python 7_chute_final_por_proximidade.py
+   ```
+3. **Geração da Visualização Final:**
+   * Abra o script `9_gerar_mapa_interativo_v2.py`.
+   * **Importante:** Certifique-se de que a variável `ARQUIVO_INPUT_NODES` dentro dele aponta para o seu dataset mais recente e corrigido (ex: `nodes_verificados.csv`).
+   * Execute o script:
 
-### Etapa 1: Coletar os Dados Brutos
+   **Bash**
 
-Execute o script principal de coleta. Ele buscará os dados para todos os pares de hosts e métricas configurados.
+   ```
+   python 9_gerar_mapa_interativo_v2.py
+   ```
+4. **Análise:** Abra o arquivo `mapa_rede_interativo_v2.html` gerado no seu navegador para explorar a rede.
 
-```bash
-python main_collector.py
-```
+## 5. Descrição dos Arquivos Finais
 
-  * **O que ele faz**:
-      * Para cada par de hosts e métrica, o script faz requisições à API.
-      * Os dados brutos retornados são salvos em arquivos `.json` dentro de `data/raw/<nome_da_metrica>/`.
-      * Ao final, um arquivo `relatorio_coleta_AAAA-MM-DD_HH-MM-SS.txt` é gerado na raiz do projeto com um resumo completo da operação.
-
-### Etapa 2: Processar os Dados
-
-Após a conclusão da coleta, execute o script de processamento para converter os arquivos JSON em CSV.
-
-```bash
-python main_processor.py
-```
-
-  * **O que ele faz**:
-      * O script varre o diretório `data/raw/` em busca de arquivos `.json`.
-      * Cada arquivo é lido, processado de acordo com sua métrica (atraso, traceroute, etc.) e reescrito como um arquivo `.csv`.
-      * Os arquivos resultantes são salvos em `data/processed/<nome_da_metrica>/`, prontos para serem usados em ferramentas de análise ou bancos de dados.
-
-## Detalhes dos Módulos
-
-  * `main_collector.py`: Orquestra o processo de coleta de dados, iterando sobre hosts e métricas.
-  * `main_processor.py`: Orquestra o processo de tratamento dos dados, lendo os arquivos brutos e acionando os parsers.
-  * `data_collector/api_client.py`: Contém a função para fazer requisições HTTP à API, com lógica de retentativas e tratamento de erros básicos.
-  * `data_collector/collector.py`: Gerencia a lógica de buscar metadados, encontrar a URI correta e salvar os dados brutos em JSON.
-  * `data_collector/report_generator.py`: Classe `CollectionReport` responsável por acumular os resultados da coleta e gerar um relatório de texto.
-  * `data_processor/processing.py`: Contém as funções de "parser" que sabem como interpretar o JSON de cada métrica e convertê-lo para um formato tabular (CSV).
+* **`data/processed/nodes_verificados.csv`** : O dataset final e corrigido contendo a lista de todos os nós e sua localização geográfica determinada.
+* **`data/processed/edges.csv`** : A lista de todas as conexões entre os nós, utilizada para desenhar o grafo.
+* **`mapa_rede_interativo_v2.html`** : O principal resultado do projeto. Um arquivo HTML autônomo com a visualização geoespacial interativa da rede.
