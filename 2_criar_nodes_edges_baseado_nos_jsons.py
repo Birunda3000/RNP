@@ -9,7 +9,7 @@ Ele gera um mapa base com nós (IPs e hostnames) e arestas (conexões entre eles
 
 # --- CONFIGURAÇÕES ---
 PASTA_INPUT_RAW = os.path.join('data', 'raw', 'traceroute')
-PASTA_OUTPUT = 'output'
+PASTA_OUTPUT = os.path.join('data', 'processed')
 ARQUIVO_SAIDA_NOS = os.path.join(PASTA_OUTPUT, 'nodes.csv')
 ARQUIVO_SAIDA_ARESTAS = os.path.join(PASTA_OUTPUT, 'edges.csv')
 
@@ -18,7 +18,7 @@ def gerar_mapa_base_com_lista_nomes():
     Versão atualizada que lê todos os dados brutos e armazena uma lista
     de todos os hostnames únicos associados a cada IP.
     """
-    print("--- INICIANDO SCRIPT v3: GERAÇÃO DE MAPA BASE COM LISTA DE NOMES ---")
+    print("--- INICIANDO SCRIPT GERAÇÃO DE MAPA BASE COM LISTA DE NOMES ---")
 
     if not os.path.exists(PASTA_INPUT_RAW):
         print(f"🚨 ERRO: A pasta de dados brutos '{PASTA_INPUT_RAW}' não foi encontrada.")
@@ -50,6 +50,7 @@ def gerar_mapa_base_com_lista_nomes():
 
             for trace in dados_traces:
                 hops = trace.get('val', [])
+
                 for i, hop in enumerate(hops):
                     ip = hop.get('ip')
                     hostname = hop.get('hostname', '')
@@ -69,7 +70,8 @@ def gerar_mapa_base_com_lista_nomes():
                     # Lógica de arestas permanece a mesma, baseada em IPs
                     if i > 0:
                         prev_ip = hops[i-1].get('ip')
-                        if prev_ip:
+                        current_ip = hop.get('ip')
+                        if prev_ip and current_ip and prev_ip != current_ip:
                             edge = tuple(sorted((prev_ip, ip)))
                             edges.add(edge)
 
@@ -79,6 +81,10 @@ def gerar_mapa_base_com_lista_nomes():
     print(f"✍️  Gerando arquivos de saída na pasta '{PASTA_OUTPUT}'...")
 
     ip_para_id = {ip: i for i, ip in enumerate(nodes_por_ip.keys())}
+
+    print("🔍 Verificando conflitos de hostnames...")
+    imprimir_conflitos(nodes_por_ip)
+    print("🔍 Conflitos verificados.")
 
     # Gerar nodes.csv
     with open(ARQUIVO_SAIDA_NOS, 'w', newline='', encoding='utf-8') as f:
@@ -104,6 +110,39 @@ def gerar_mapa_base_com_lista_nomes():
 
     print(f"✅ Arquivos '{os.path.basename(ARQUIVO_SAIDA_NOS)}' e '{os.path.basename(ARQUIVO_SAIDA_ARESTAS)}' salvos com sucesso.")
     print("--- SCRIPT FINALIZADO ---")
+
+
+
+def imprimir_conflitos(nodes_por_ip):
+    """
+    Identifica IPs com múltiplos hostnames associados e imprime um relatório no terminal.
+
+    Args:
+        nodes_por_ip (defaultdict): Dicionário com IPs como chaves e um set de
+                                    hostnames como valores.
+    """
+    print("\n--- 🕵️  RELATÓRIO DE CONFLITOS DE HOSTNAME ---")
+
+    # Filtra o dicionário para encontrar apenas os IPs com mais de um nome
+    conflitos = {ip: nomes for ip, nomes in nodes_por_ip.items() if len(nomes) > 1}
+
+    if not conflitos:
+        print("✅ Nenhum conflito de hostname encontrado. Cada IP possui 0 ou 1 nome associado.")
+        print("-------------------------------------------------")
+        return
+
+    print(f"🚨 Encontrados {len(conflitos)} IPs com múltiplos hostnames associados:\n")
+
+    # Ordena os IPs para uma exibição consistente
+    for ip, set_de_nomes in sorted(conflitos.items()):
+        # Ordena os nomes para garantir a mesma ordem de exibição sempre
+        nomes_str = ", ".join(sorted(list(set_de_nomes)))
+        print(f"  IP: {ip}")
+        print(f"  Nomes: [{nomes_str}]\n")
+
+    print("-------------------------------------------------")
+
+
 
 if __name__ == '__main__':
     gerar_mapa_base_com_lista_nomes()

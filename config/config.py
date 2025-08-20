@@ -13,8 +13,8 @@ ARCHIVE_URL = f"{BASE_URL}/esmond/perfsonar/archive/"
 
 # --- REQUESTS ---
 # Configurações para as tentativas de requisição (retry)
-MAX_RETRIES = 2
-RETRY_DELAY_SECONDS = 1
+MAX_RETRIES = 3
+RETRY_DELAY_SECONDS = 3
 CLIENT_RATE_LIMIT_DELAY = 2 # Pausa entre pares de hosts
 REQUEST_TIMEOUT_SECONDS = 5 # Timeout para cada requisição
 
@@ -22,7 +22,7 @@ REQUEST_TIMEOUT_SECONDS = 5 # Timeout para cada requisição
 # Período de tempo para a coleta de dados (em segundos)
 #"2628000"  # Exemplo: 1 mês
 #"604800"  # Exemplo: 1 semana
-TIME_RANGE_SECONDS = "2628000"  # Valor para 1 semana
+TIME_RANGE_SECONDS = "2628000"
 
 # --- HOSTS ---
 HOST_LIST = [
