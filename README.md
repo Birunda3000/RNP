@@ -1,7 +1,3 @@
-Claro, aqui está uma proposta de `README.md` para o seu repositório, gerada a partir dos arquivos fornecidos.
-
------
-
 # Coletor e Processador de Dados de Rede (RNP)
 
 Este projeto consiste em um conjunto de scripts Python para automatizar a coleta e o processamento de dados de métricas de rede a partir de uma API. O sistema é dividido em duas etapas principais:
